@@ -68,6 +68,7 @@ export interface Config {
   blocks: {};
   collections: {
     users: User;
+    pages: Page;
     media: Media;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -77,6 +78,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -147,6 +149,157 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  /**
+   * Used in the page URL (e.g. /about, /courses).
+   */
+  slug: string;
+  metaTitle: string;
+  metaDescription: string;
+  blocks?:
+    | (
+        | {
+            title: string;
+            subtitle?: string | null;
+            image?: (number | null) | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'homeBanner';
+          }
+        | {
+            sectionHeading: {
+              badge: string;
+              title: string;
+              subtitle?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'feature';
+          }
+        | {
+            sectionHeading: {
+              badge: string;
+              title: string;
+              subtitle?: string | null;
+            };
+            image?: (number | null) | Media;
+            points: {
+              title: string;
+              description?: string | null;
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'whyChooseUs';
+          }
+        | {
+            sectionHeading: {
+              badge: string;
+              title: string;
+              subtitle?: string | null;
+            };
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'aboutUs';
+          }
+        | {
+            mission?: string | null;
+            vision?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'missionVision';
+          }
+        | {
+            sectionHeading: {
+              badge: string;
+              title: string;
+              subtitle?: string | null;
+            };
+            members?:
+              | {
+                  name: string;
+                  designation?: string | null;
+                  photo?: (number | null) | Media;
+                  bio?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'team';
+          }
+        | {
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'courseListing';
+          }
+        | {
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'courseDetail';
+          }
+        | {
+            title: string;
+            subtitle?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'banner';
+          }
+        | {
+            sectionHeading: {
+              badge: string;
+              title: string;
+              subtitle?: string | null;
+            };
+            items?:
+              | {
+                  question: string;
+                  answer: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'faq';
+          }
+        | {
+            sectionHeading: {
+              badge: string;
+              title: string;
+              subtitle?: string | null;
+            };
+            description?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'promoBanner';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
@@ -191,6 +344,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
       } | null)
     | ({
         relationTo: 'media';
@@ -262,6 +419,164 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  metaTitle?: T;
+  metaDescription?: T;
+  blocks?:
+    | T
+    | {
+        homeBanner?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              image?: T;
+              id?: T;
+              blockName?: T;
+            };
+        feature?:
+          | T
+          | {
+              sectionHeading?:
+                | T
+                | {
+                    badge?: T;
+                    title?: T;
+                    subtitle?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        whyChooseUs?:
+          | T
+          | {
+              sectionHeading?:
+                | T
+                | {
+                    badge?: T;
+                    title?: T;
+                    subtitle?: T;
+                  };
+              image?: T;
+              points?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        aboutUs?:
+          | T
+          | {
+              sectionHeading?:
+                | T
+                | {
+                    badge?: T;
+                    title?: T;
+                    subtitle?: T;
+                  };
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        missionVision?:
+          | T
+          | {
+              mission?: T;
+              vision?: T;
+              id?: T;
+              blockName?: T;
+            };
+        team?:
+          | T
+          | {
+              sectionHeading?:
+                | T
+                | {
+                    badge?: T;
+                    title?: T;
+                    subtitle?: T;
+                  };
+              members?:
+                | T
+                | {
+                    name?: T;
+                    designation?: T;
+                    photo?: T;
+                    bio?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        courseListing?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        courseDetail?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        banner?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              id?: T;
+              blockName?: T;
+            };
+        faq?:
+          | T
+          | {
+              sectionHeading?:
+                | T
+                | {
+                    badge?: T;
+                    title?: T;
+                    subtitle?: T;
+                  };
+              items?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        promoBanner?:
+          | T
+          | {
+              sectionHeading?:
+                | T
+                | {
+                    badge?: T;
+                    title?: T;
+                    subtitle?: T;
+                  };
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
