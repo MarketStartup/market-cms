@@ -30,7 +30,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || '',
     },
-    migrationDir: './migrations',
+    migrationDir: 'src/migrations',
   }),
   sharp,
   plugins: [
