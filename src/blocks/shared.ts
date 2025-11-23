@@ -22,6 +22,24 @@ export const SectionHeading: Field = {
    ],
 }
 
+export const Cta = (name: string, label: string): Field => ({
+   name,
+   label,
+   type: 'group',
+   fields: [
+      {
+         name: 'label',
+         type: 'text',
+         required: true,
+      },
+      {
+         name: 'href',
+         type: 'text',
+         required: true,
+      },
+   ],
+});
+
 export const Banner: Block = {
    slug: 'banner',
    labels: {
@@ -80,5 +98,7 @@ export const PromoBanner: Block = {
          name: 'description',
          type: 'textarea',
       },
+      Cta('primaryAction', 'Primary Action'),
+      Cta('secondaryAction', 'Secondary Action'),
    ],
 }

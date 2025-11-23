@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     pages: Page;
+    courses: Course;
     media: Media;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -79,6 +80,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    courses: CoursesSelect<false> | CoursesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -126,6 +128,53 @@ export interface User {
   firstName?: string | null;
   lastName?: string | null;
   /**
+   * Select the users date of birth.
+   */
+  dob?: string | null;
+  /**
+   * Select the user state
+   */
+  state?:
+    | (
+        | 'Andhra Pradesh'
+        | 'Arunachal Pradesh'
+        | 'Assam'
+        | 'Bihar'
+        | 'Chhattisgarh'
+        | 'Goa'
+        | 'Gujarat'
+        | 'Haryana'
+        | 'Himachal Pradesh'
+        | 'Jharkhand'
+        | 'Karnataka'
+        | 'Kerala'
+        | 'Madhya Pradesh'
+        | 'Maharashtra'
+        | 'Manipur'
+        | 'Meghalaya'
+        | 'Mizoram'
+        | 'Nagaland'
+        | 'Odisha'
+        | 'Punjab'
+        | 'Rajasthan'
+        | 'Sikkim'
+        | 'Tamil Nadu'
+        | 'Telangana'
+        | 'Tripura'
+        | 'Uttar Pradesh'
+        | 'Uttarakhand'
+        | 'West Bengal'
+        | 'Andaman and Nicobar Islands'
+        | 'Chandigarh'
+        | 'Dadra and Nagar Haveli and Daman and Diu'
+        | 'Delhi'
+        | 'Jammu and Kashmir'
+        | 'Ladakh'
+        | 'Lakshadweep'
+        | 'Puducherry'
+      )
+    | null;
+  /**
    * Only users with the "Admin" role can access the CMS.
    */
   role: 'admin' | 'user';
@@ -166,6 +215,14 @@ export interface Page {
             title: string;
             subtitle?: string | null;
             image?: (number | null) | Media;
+            primaryAction: {
+              label: string;
+              href: string;
+            };
+            secondaryAction: {
+              label: string;
+              href: string;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'homeBanner';
@@ -258,6 +315,11 @@ export interface Page {
             blockType: 'courseDetail';
           }
         | {
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contactForm';
+          }
+        | {
             title: string;
             subtitle?: string | null;
             id?: string | null;
@@ -288,6 +350,14 @@ export interface Page {
               subtitle?: string | null;
             };
             description?: string | null;
+            primaryAction: {
+              label: string;
+              href: string;
+            };
+            secondaryAction: {
+              label: string;
+              href: string;
+            };
             id?: string | null;
             blockName?: string | null;
             blockType: 'promoBanner';
@@ -316,6 +386,32 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "courses".
+ */
+export interface Course {
+  id: number;
+  title: string;
+  /**
+   * Auto-generated from the title, but can be edited.
+   */
+  slug: string;
+  description: string;
+  category: string;
+  price: number;
+  image: number | Media;
+  instructor: string;
+  rating: number;
+  students: number;
+  /**
+   * Example: "10 hours", "3 weeks", "Self-paced", etc.
+   */
+  duration: string;
+  level: 'beginner' | 'intermediate' | 'advanced' | 'all';
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -348,6 +444,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'courses';
+        value: number | Course;
       } | null)
     | ({
         relationTo: 'media';
@@ -402,6 +502,8 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   firstName?: T;
   lastName?: T;
+  dob?: T;
+  state?: T;
   role?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -438,6 +540,18 @@ export interface PagesSelect<T extends boolean = true> {
               title?: T;
               subtitle?: T;
               image?: T;
+              primaryAction?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                  };
+              secondaryAction?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -531,6 +645,12 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        contactForm?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
         banner?:
           | T
           | {
@@ -570,6 +690,18 @@ export interface PagesSelect<T extends boolean = true> {
                     subtitle?: T;
                   };
               description?: T;
+              primaryAction?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                  };
+              secondaryAction?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -577,6 +709,25 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "courses_select".
+ */
+export interface CoursesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  category?: T;
+  price?: T;
+  image?: T;
+  instructor?: T;
+  rating?: T;
+  students?: T;
+  duration?: T;
+  level?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

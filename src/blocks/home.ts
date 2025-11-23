@@ -1,5 +1,5 @@
 import type { Block } from 'payload'
-import { SectionHeading } from './shared'
+import { Cta, SectionHeading } from './shared'
 
 export const HomeBanner: Block = {
    slug: 'homeBanner',
@@ -22,6 +22,8 @@ export const HomeBanner: Block = {
          type: 'upload',
          relationTo: 'media',
       },
+      Cta('primaryAction', 'Primary Action'),
+      Cta('secondaryAction', 'Secondary Action'),
    ],
 }
 

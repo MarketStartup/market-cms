@@ -19,6 +19,8 @@ import {
    CourseListing,
    CourseDetail,
 } from '../blocks/course'
+import { RoleConstant } from '@/lib/constants'
+import { ContactForm } from '@/blocks/contact'
 
 export const Pages: CollectionConfig = {
    slug: 'pages',
@@ -27,10 +29,20 @@ export const Pages: CollectionConfig = {
       defaultColumns: ['title', 'slug', 'updatedAt'],
    },
    versions: {
-      drafts: true, // optional but nice for pages
+      drafts: {
+         autosave: {
+            interval: 2000,
+         },
+         validate: false,
+      },
+   },
+   access: {
+      read: () => true,
+      create: ({ req }) => req.user?.role === RoleConstant.ADMIN,
+      update: ({ req }) => req.user?.role === RoleConstant.ADMIN,
+      delete: ({ req }) => req.user?.role === RoleConstant.ADMIN,
    },
    fields: [
-      // Basic page fields
       {
          name: 'title',
          type: 'text',
@@ -45,8 +57,6 @@ export const Pages: CollectionConfig = {
             description: 'Used in the page URL (e.g. /about, /courses).',
          },
       },
-
-      // Tabs wrapper
       {
          type: 'tabs',
          tabs: [
@@ -84,6 +94,8 @@ export const Pages: CollectionConfig = {
                         // Course
                         CourseListing,
                         CourseDetail,
+                        //Contact
+                        ContactForm,
                         // Shared
                         Banner,
                         Faq,

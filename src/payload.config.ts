@@ -1,4 +1,3 @@
-// storage-adapter-import-placeholder
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -10,18 +9,25 @@ import sharp from 'sharp'
 import { Users } from './collections/Users'
 import { Pages } from './collections/Pages'
 import { Media } from './collections/Media'
+import { Courses } from './collections/Courses'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+const serverURL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'
+const frontendURL = process.env.FRONTEND_URL || 'http://localhost:3000'
+
 export default buildConfig({
+  serverURL,
+  cors: [serverURL, frontendURL].filter(Boolean),
+  csrf: [serverURL, frontendURL].filter(Boolean),
   admin: {
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Pages, Media],
+  collections: [Users, Pages, Courses, Media],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
