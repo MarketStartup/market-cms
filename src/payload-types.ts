@@ -95,10 +95,12 @@ export interface Config {
   globals: {
     header: Header;
     home: Home;
+    footer: Footer;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     home: HomeSelect<false> | HomeSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: null;
   user: User & {
@@ -144,6 +146,16 @@ export interface User {
    * Only users with the "Admin" role can access the CMS.
    */
   role: 'admin' | 'user';
+  enrollments: {
+    course: number | Course;
+    batch: string;
+    /**
+     * Enrollment date of the batch.
+     */
+    enrollmentDate: string;
+    price: number;
+    id?: string | null;
+  }[];
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
@@ -164,6 +176,93 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "courses".
+ */
+export interface Course {
+  id: number;
+  title: string;
+  /**
+   * Auto-generated from the title, but can be edited.
+   */
+  slug: string;
+  description: string;
+  image: number | Media;
+  rating: number;
+  review: number;
+  student: number;
+  price: number;
+  comparePrice: number;
+  category: string;
+  instructor: number | Instructor;
+  /**
+   * Example: "10 hours", "3 weeks", "Self-paced", etc.
+   */
+  duration: string;
+  level: 'beginner' | 'intermediate' | 'advanced';
+  whatYouLearnPoints: {
+    title: string;
+    id?: string | null;
+  }[];
+  skills: {
+    title: string;
+    id?: string | null;
+  }[];
+  reviews: {
+    rating: string;
+    reviewer: string;
+    review: string;
+    id?: string | null;
+  }[];
+  batches: {
+    name: string;
+    /**
+     * Start date of the batch.
+     */
+    startDate: string;
+    /**
+     * End date of the batch.
+     */
+    endDate: string;
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "instructors".
+ */
+export interface Instructor {
+  id: number;
+  name: string;
+  bio: string;
+  image?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -306,93 +405,6 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "courses".
- */
-export interface Course {
-  id: number;
-  title: string;
-  /**
-   * Auto-generated from the title, but can be edited.
-   */
-  slug: string;
-  description: string;
-  image: number | Media;
-  rating: number;
-  review: number;
-  student: number;
-  price: number;
-  comparePrice: number;
-  category: string;
-  instructor: number | Instructor;
-  /**
-   * Example: "10 hours", "3 weeks", "Self-paced", etc.
-   */
-  duration: string;
-  level: 'beginner' | 'intermediate' | 'advanced';
-  whatYouLearnPoints: {
-    title: string;
-    id?: string | null;
-  }[];
-  skills: {
-    title: string;
-    id?: string | null;
-  }[];
-  reviews: {
-    rating: string;
-    reviewer: string;
-    review: string;
-    id?: string | null;
-  }[];
-  batches: {
-    name: string;
-    /**
-     * Start date of the batch.
-     */
-    startDate: string;
-    /**
-     * End date of the batch.
-     */
-    endDate: string;
-    id?: string | null;
-  }[];
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "instructors".
- */
-export interface Instructor {
-  id: number;
-  name: string;
-  bio: string;
-  image?: (number | null) | Media;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -487,6 +499,15 @@ export interface UsersSelect<T extends boolean = true> {
   dob?: T;
   state?: T;
   role?: T;
+  enrollments?:
+    | T
+    | {
+        course?: T;
+        batch?: T;
+        enrollmentDate?: T;
+        price?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   enableAPIKey?: T;
@@ -795,6 +816,7 @@ export interface Home {
     | (
         | {
             title: string;
+            titleHighlight: string;
             subtitle?: string | null;
             image?: (number | null) | Media;
             primaryAction: {
@@ -815,6 +837,11 @@ export interface Home {
               title: string;
               subtitle?: string | null;
             };
+            features: {
+              title: string;
+              description: string;
+              id?: string | null;
+            }[];
             id?: string | null;
             blockName?: string | null;
             blockType: 'feature';
@@ -860,6 +887,22 @@ export interface Home {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  quickItems?:
+    | {
+        label: string;
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -888,6 +931,7 @@ export interface HomeSelect<T extends boolean = true> {
           | T
           | {
               title?: T;
+              titleHighlight?: T;
               subtitle?: T;
               image?: T;
               primaryAction?:
@@ -914,6 +958,13 @@ export interface HomeSelect<T extends boolean = true> {
                     badge?: T;
                     title?: T;
                     subtitle?: T;
+                  };
+              features?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    id?: T;
                   };
               id?: T;
               blockName?: T;
@@ -961,6 +1012,22 @@ export interface HomeSelect<T extends boolean = true> {
             };
       };
   _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  quickItems?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

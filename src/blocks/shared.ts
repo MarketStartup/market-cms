@@ -6,14 +6,25 @@ export const SectionHeading: Field = {
    type: 'group',
    fields: [
       {
-         name: 'badge',
-         type: 'text',
-         required: true,
-      },
-      {
-         name: 'title',
-         type: 'text',
-         required: true,
+         type: 'row',
+         fields: [
+            {
+               name: 'badge',
+               type: 'text',
+               required: true,
+               admin: {
+                  width: '25%'
+               }
+            },
+            {
+               name: 'title',
+               type: 'text',
+               required: true,
+               admin: {
+                  width: '75%'
+               }
+            },
+         ]
       },
       {
          name: 'subtitle',
@@ -28,15 +39,26 @@ export const Cta = (name: string, label: string): Field => ({
    type: 'group',
    fields: [
       {
-         name: 'label',
-         type: 'text',
-         required: true,
-      },
-      {
-         name: 'href',
-         type: 'text',
-         required: true,
-      },
+         type: 'row',
+         fields: [
+            {
+               name: 'label',
+               type: 'text',
+               required: true,
+               admin: {
+                  width: '50%'
+               }
+            },
+            {
+               name: 'href',
+               type: 'text',
+               required: true,
+               admin: {
+                  width: '50%'
+               }
+            },
+         ]
+      }
    ],
 });
 

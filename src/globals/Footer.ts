@@ -1,13 +1,13 @@
 import type { GlobalConfig } from 'payload';
 
-export const Header: GlobalConfig = {
-   slug: 'header',
+export const Footer: GlobalConfig = {
+   slug: 'footer',
    access: {
       read: () => true,
    },
    fields: [
       {
-         name: 'navItems',
+         name: 'quickItems',
          type: 'array',
          maxRows: 6,
          fields: [

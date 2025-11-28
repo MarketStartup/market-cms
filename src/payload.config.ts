@@ -12,6 +12,7 @@ import { Media } from './collections/Media'
 import { Courses } from './collections/Courses'
 import { Instructors } from './collections/Instructors'
 import { Header } from './globals/Header'
+import { Footer } from './globals/Footer'
 import { Home } from './globals/Home'
 
 const filename = fileURLToPath(import.meta.url)
@@ -31,7 +32,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Pages, Courses, Instructors, Media],
-  globals: [Header, Home],
+  globals: [Header, Home, Footer],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

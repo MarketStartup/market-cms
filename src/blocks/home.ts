@@ -14,6 +14,11 @@ export const HomeBanner: Block = {
          required: true,
       },
       {
+         name: 'titleHighlight',
+         type: 'text',
+         required: true,
+      },
+      {
          name: 'subtitle',
          type: 'text',
       },
@@ -34,7 +39,24 @@ export const Feature: Block = {
       plural: 'Features',
    },
    fields: [
-      { ...SectionHeading }
+      { ...SectionHeading },
+      {
+         name: 'features',
+         type: 'array',
+         required: true,
+         fields: [
+            {
+               name: 'title',
+               type: 'text',
+               required: true,
+            },
+            {
+               name: 'description',
+               type: 'textarea',
+               required: true,
+            },
+         ],
+      },
    ],
 }
 
