@@ -10,12 +10,15 @@ import { Users } from './collections/Users'
 import { Pages } from './collections/Pages'
 import { Media } from './collections/Media'
 import { Courses } from './collections/Courses'
+import { Instructors } from './collections/Instructors'
+import { Header } from './globals/Header'
+import { Home } from './globals/Home'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 const serverURL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'
-const frontendURL = process.env.FRONTEND_URL || 'http://localhost:3000'
+const frontendURL = process.env.FRONTEND_URL || 'http://localhost:3005'
 
 export default buildConfig({
   serverURL,
@@ -27,7 +30,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Pages, Courses, Media],
+  collections: [Users, Pages, Courses, Instructors, Media],
+  globals: [Header, Home],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

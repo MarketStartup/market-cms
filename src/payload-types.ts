@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     pages: Page;
     courses: Course;
+    instructors: Instructor;
     media: Media;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -81,6 +82,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     courses: CoursesSelect<false> | CoursesSelect<true>;
+    instructors: InstructorsSelect<false> | InstructorsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -90,8 +92,14 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    header: Header;
+    home: Home;
+  };
+  globalsSelect: {
+    header: HeaderSelect<false> | HeaderSelect<true>;
+    home: HomeSelect<false> | HomeSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -131,55 +139,16 @@ export interface User {
    * Select the users date of birth.
    */
   dob?: string | null;
-  /**
-   * Select the user state
-   */
-  state?:
-    | (
-        | 'Andhra Pradesh'
-        | 'Arunachal Pradesh'
-        | 'Assam'
-        | 'Bihar'
-        | 'Chhattisgarh'
-        | 'Goa'
-        | 'Gujarat'
-        | 'Haryana'
-        | 'Himachal Pradesh'
-        | 'Jharkhand'
-        | 'Karnataka'
-        | 'Kerala'
-        | 'Madhya Pradesh'
-        | 'Maharashtra'
-        | 'Manipur'
-        | 'Meghalaya'
-        | 'Mizoram'
-        | 'Nagaland'
-        | 'Odisha'
-        | 'Punjab'
-        | 'Rajasthan'
-        | 'Sikkim'
-        | 'Tamil Nadu'
-        | 'Telangana'
-        | 'Tripura'
-        | 'Uttar Pradesh'
-        | 'Uttarakhand'
-        | 'West Bengal'
-        | 'Andaman and Nicobar Islands'
-        | 'Chandigarh'
-        | 'Dadra and Nagar Haveli and Daman and Diu'
-        | 'Delhi'
-        | 'Jammu and Kashmir'
-        | 'Ladakh'
-        | 'Lakshadweep'
-        | 'Puducherry'
-      )
-    | null;
+  state?: string | null;
   /**
    * Only users with the "Admin" role can access the CMS.
    */
   role: 'admin' | 'user';
   updatedAt: string;
   createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
   email: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
@@ -204,55 +173,17 @@ export interface Page {
   id: number;
   title: string;
   /**
-   * Used in the page URL (e.g. /about, /courses).
+   * Auto-generated from the title, but can be edited.
    */
   slug: string;
+  /**
+   * Only users with the "Admin" role can access the CMS.
+   */
+  layout: 'about' | 'contact' | 'courses' | 'course-detail';
   metaTitle: string;
   metaDescription: string;
   blocks?:
     | (
-        | {
-            title: string;
-            subtitle?: string | null;
-            image?: (number | null) | Media;
-            primaryAction: {
-              label: string;
-              href: string;
-            };
-            secondaryAction: {
-              label: string;
-              href: string;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'homeBanner';
-          }
-        | {
-            sectionHeading: {
-              badge: string;
-              title: string;
-              subtitle?: string | null;
-            };
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'feature';
-          }
-        | {
-            sectionHeading: {
-              badge: string;
-              title: string;
-              subtitle?: string | null;
-            };
-            image?: (number | null) | Media;
-            points: {
-              title: string;
-              description?: string | null;
-              id?: string | null;
-            }[];
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'whyChooseUs';
-          }
         | {
             sectionHeading: {
               badge: string;
@@ -308,6 +239,11 @@ export interface Page {
             id?: string | null;
             blockName?: string | null;
             blockType: 'courseListing';
+          }
+        | {
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'courseDetailBanner';
           }
         | {
             id?: string | null;
@@ -399,19 +335,61 @@ export interface Course {
    */
   slug: string;
   description: string;
-  category: string;
-  price: number;
   image: number | Media;
-  instructor: string;
   rating: number;
-  students: number;
+  review: number;
+  student: number;
+  price: number;
+  comparePrice: number;
+  category: string;
+  instructor: number | Instructor;
   /**
    * Example: "10 hours", "3 weeks", "Self-paced", etc.
    */
   duration: string;
-  level: 'beginner' | 'intermediate' | 'advanced' | 'all';
+  level: 'beginner' | 'intermediate' | 'advanced';
+  whatYouLearnPoints: {
+    title: string;
+    id?: string | null;
+  }[];
+  skills: {
+    title: string;
+    id?: string | null;
+  }[];
+  reviews: {
+    rating: string;
+    reviewer: string;
+    review: string;
+    id?: string | null;
+  }[];
+  batches: {
+    name: string;
+    /**
+     * Start date of the batch.
+     */
+    startDate: string;
+    /**
+     * End date of the batch.
+     */
+    endDate: string;
+    id?: string | null;
+  }[];
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "instructors".
+ */
+export interface Instructor {
+  id: number;
+  name: string;
+  bio: string;
+  image?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -448,6 +426,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'courses';
         value: number | Course;
+      } | null)
+    | ({
+        relationTo: 'instructors';
+        value: number | Instructor;
       } | null)
     | ({
         relationTo: 'media';
@@ -507,6 +489,9 @@ export interface UsersSelect<T extends boolean = true> {
   role?: T;
   updatedAt?: T;
   createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
   email?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;
@@ -529,66 +514,12 @@ export interface UsersSelect<T extends boolean = true> {
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  layout?: T;
   metaTitle?: T;
   metaDescription?: T;
   blocks?:
     | T
     | {
-        homeBanner?:
-          | T
-          | {
-              title?: T;
-              subtitle?: T;
-              image?: T;
-              primaryAction?:
-                | T
-                | {
-                    label?: T;
-                    href?: T;
-                  };
-              secondaryAction?:
-                | T
-                | {
-                    label?: T;
-                    href?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        feature?:
-          | T
-          | {
-              sectionHeading?:
-                | T
-                | {
-                    badge?: T;
-                    title?: T;
-                    subtitle?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        whyChooseUs?:
-          | T
-          | {
-              sectionHeading?:
-                | T
-                | {
-                    badge?: T;
-                    title?: T;
-                    subtitle?: T;
-                  };
-              image?: T;
-              points?:
-                | T
-                | {
-                    title?: T;
-                    description?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
         aboutUs?:
           | T
           | {
@@ -634,6 +565,12 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
         courseListing?:
+          | T
+          | {
+              id?: T;
+              blockName?: T;
+            };
+        courseDetailBanner?:
           | T
           | {
               id?: T;
@@ -718,16 +655,59 @@ export interface CoursesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   description?: T;
-  category?: T;
-  price?: T;
   image?: T;
-  instructor?: T;
   rating?: T;
-  students?: T;
+  review?: T;
+  student?: T;
+  price?: T;
+  comparePrice?: T;
+  category?: T;
+  instructor?: T;
   duration?: T;
   level?: T;
+  whatYouLearnPoints?:
+    | T
+    | {
+        title?: T;
+        id?: T;
+      };
+  skills?:
+    | T
+    | {
+        title?: T;
+        id?: T;
+      };
+  reviews?:
+    | T
+    | {
+        rating?: T;
+        reviewer?: T;
+        review?: T;
+        id?: T;
+      };
+  batches?:
+    | T
+    | {
+        name?: T;
+        startDate?: T;
+        endDate?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "instructors_select".
+ */
+export interface InstructorsSelect<T extends boolean = true> {
+  name?: T;
+  bio?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -786,6 +766,204 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header".
+ */
+export interface Header {
+  id: number;
+  navItems?:
+    | {
+        label: string;
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home".
+ */
+export interface Home {
+  id: number;
+  metaTitle: string;
+  metaDescription: string;
+  blocks?:
+    | (
+        | {
+            title: string;
+            subtitle?: string | null;
+            image?: (number | null) | Media;
+            primaryAction: {
+              label: string;
+              href: string;
+            };
+            secondaryAction: {
+              label: string;
+              href: string;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'homeBanner';
+          }
+        | {
+            sectionHeading: {
+              badge: string;
+              title: string;
+              subtitle?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'feature';
+          }
+        | {
+            sectionHeading: {
+              badge: string;
+              title: string;
+              subtitle?: string | null;
+            };
+            image?: (number | null) | Media;
+            points: {
+              title: string;
+              description?: string | null;
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'whyChooseUs';
+          }
+        | {
+            sectionHeading: {
+              badge: string;
+              title: string;
+              subtitle?: string | null;
+            };
+            items?:
+              | {
+                  question: string;
+                  answer: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'faq';
+          }
+      )[]
+    | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header_select".
+ */
+export interface HeaderSelect<T extends boolean = true> {
+  navItems?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home_select".
+ */
+export interface HomeSelect<T extends boolean = true> {
+  metaTitle?: T;
+  metaDescription?: T;
+  blocks?:
+    | T
+    | {
+        homeBanner?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              image?: T;
+              primaryAction?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                  };
+              secondaryAction?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        feature?:
+          | T
+          | {
+              sectionHeading?:
+                | T
+                | {
+                    badge?: T;
+                    title?: T;
+                    subtitle?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        whyChooseUs?:
+          | T
+          | {
+              sectionHeading?:
+                | T
+                | {
+                    badge?: T;
+                    title?: T;
+                    subtitle?: T;
+                  };
+              image?: T;
+              points?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        faq?:
+          | T
+          | {
+              sectionHeading?:
+                | T
+                | {
+                    badge?: T;
+                    title?: T;
+                    subtitle?: T;
+                  };
+              items?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

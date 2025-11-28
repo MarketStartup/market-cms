@@ -6,11 +6,6 @@ import {
    PromoBanner,
 } from '../blocks/shared'
 import {
-   HomeBanner,
-   Feature,
-   WhyChooseUs,
-} from '../blocks/home'
-import {
    AboutUs,
    MissionVision,
    Team,
@@ -18,8 +13,10 @@ import {
 import {
    CourseListing,
    CourseDetail,
+   CourseDetailBanner,
 } from '../blocks/course'
-import { RoleConstant } from '@/lib/constants'
+import { formatSlugHook } from '@/hooks/formatSlugHook'
+import { RoleConstant, LayoutConstant } from '@/lib/constants'
 import { ContactForm } from '@/blocks/contact'
 
 export const Pages: CollectionConfig = {
@@ -44,17 +41,42 @@ export const Pages: CollectionConfig = {
    },
    fields: [
       {
-         name: 'title',
-         type: 'text',
-         required: true,
+         type: 'row',
+         fields: [
+            {
+               name: 'title',
+               type: 'text',
+               required: true,
+               admin: { width: '50%' }
+            },
+            {
+               name: 'slug',
+               type: 'text',
+               required: true,
+               unique: true,
+               index: true,
+               admin: {
+                  description: 'Auto-generated from the title, but can be edited.',
+                  width: '50%'
+               },
+               hooks: {
+                  beforeValidate: [formatSlugHook('title')],
+               },
+            }
+         ]
       },
       {
-         name: 'slug',
-         type: 'text',
+         name: 'layout',
+         type: 'select',
          required: true,
-         unique: true,
+         options: [
+            { label: 'About', value: LayoutConstant.ABOUT },
+            { label: 'Contact', value: LayoutConstant.CONTACT },
+            { label: 'Courses', value: LayoutConstant.COURSES },
+            { label: 'Course Detail', value: LayoutConstant.COURSE_DETAIL },
+         ],
          admin: {
-            description: 'Used in the page URL (e.g. /about, /courses).',
+            description: 'Only users with the "Admin" role can access the CMS.',
          },
       },
       {
@@ -83,16 +105,13 @@ export const Pages: CollectionConfig = {
                      label: 'Page Blocks',
                      type: 'blocks',
                      blocks: [
-                        // Home
-                        HomeBanner,
-                        Feature,
-                        WhyChooseUs,
                         // About
                         AboutUs,
                         MissionVision,
                         Team,
                         // Course
                         CourseListing,
+                        CourseDetailBanner,
                         CourseDetail,
                         //Contact
                         ContactForm,

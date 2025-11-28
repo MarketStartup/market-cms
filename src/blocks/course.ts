@@ -11,6 +11,17 @@ export const CourseListing: Block = {
    ],
 }
 
+export const CourseDetailBanner: Block = {
+   slug: 'courseDetailBanner',
+   labels: {
+      singular: 'Course Detail Banner',
+      plural: 'Course Detail Banners',
+   },
+   fields: [
+
+   ],
+}
+
 export const CourseDetail: Block = {
    slug: 'courseDetail',
    labels: {
