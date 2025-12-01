@@ -8,7 +8,7 @@ export const Users: CollectionConfig = {
   },
   auth: {
     useAPIKey: true,
-    tokenExpiration: 60 * 60 * 24 * 7
+    tokenExpiration: 60 * 60 * 24 * 7,
   },
   access: {
     admin: ({ req }) => req.user?.role === RoleConstant.ADMIN,
@@ -30,14 +30,14 @@ export const Users: CollectionConfig = {
                   name: 'firstName',
                   type: 'text',
                   admin: {
-                    width: '50%'
+                    width: '50%',
                   },
                 },
                 {
                   name: 'lastName',
                   type: 'text',
                   admin: {
-                    width: '50%'
+                    width: '50%',
                   },
                 },
                 {
@@ -49,7 +49,7 @@ export const Users: CollectionConfig = {
                     date: {
                       pickerAppearance: 'dayOnly',
                     },
-                    width: '50%'
+                    width: '50%',
                   },
                 },
                 {
@@ -57,84 +57,43 @@ export const Users: CollectionConfig = {
                   label: 'State',
                   type: 'text',
                   admin: {
-                    width: '50%'
+                    width: '50%',
                   },
                 },
-              ]
+              ],
             },
             {
               name: 'role',
               type: 'select',
               required: true,
-              defaultValue: 'user',
+              defaultValue: RoleConstant.USER,
               options: [
                 { label: 'Admin', value: RoleConstant.ADMIN },
                 { label: 'User', value: RoleConstant.USER },
               ],
               admin: {
-                description: 'Only users with the "Admin" role can access the CMS.',
+                description:
+                  'Only users with the "Admin" role can access the CMS.',
               },
             },
-          ]
+          ],
         },
         {
           label: 'Enrollments',
           fields: [
             {
               name: 'enrollments',
-              type: 'array',
-              required: true,
-              fields: [
-                {
-                  type: 'row',
-                  fields: [
-                    {
-                      name: 'course',
-                      label: 'Course',
-                      type: 'relationship',
-                      relationTo: 'courses',
-                      required: true,
-                      admin: {
-                        width: '50%'
-                      }
-                    },
-                    {
-                      name: 'batch',
-                      type: 'text',
-                      required: true,
-                      admin: {
-                        width: '50%'
-                      }
-                    },
-                    {
-                      name: 'enrollmentDate',
-                      label: 'Enrollment Date',
-                      type: 'date',
-                      required: true,
-                      admin: {
-                        description: 'Enrollment date of the batch.',
-                        date: {
-                          pickerAppearance: 'dayOnly',
-                        },
-                        width: '50%',
-                      }
-                    },
-                    {
-                      name: 'price',
-                      type: 'number',
-                      required: true,
-                      min: 0,
-                      admin: {
-                        width: '50%',
-                      }
-                    },
-                  ]
-                }
-              ]
-            }
-          ]
-        }
+              label: 'Batches',
+              type: 'join',
+              collection: 'batches',
+              on: 'users.user',
+              admin: {
+                defaultColumns: ['title', 'startDate', 'endDate'],
+              },
+            },
+          ],
+        },
       ],
-    }
-  ]
+    },
+  ],
 };

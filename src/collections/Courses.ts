@@ -30,7 +30,7 @@ export const Courses: CollectionConfig = {
                name: 'title',
                type: 'text',
                required: true,
-               admin: { width: '50%' }
+               admin: { width: '50%' },
             },
             {
                name: 'slug',
@@ -40,13 +40,13 @@ export const Courses: CollectionConfig = {
                index: true,
                admin: {
                   description: 'Auto-generated from the title, but can be edited.',
-                  width: '50%'
+                  width: '50%',
                },
                hooks: {
                   beforeValidate: [formatSlugHook('title')],
                },
-            }
-         ]
+            },
+         ],
       },
       {
          type: 'tabs',
@@ -74,23 +74,23 @@ export const Courses: CollectionConfig = {
                            required: true,
                            min: 0,
                            max: 5,
-                           admin: { width: '33.3%' }
+                           admin: { width: '33.3%' },
                         },
                         {
                            name: 'review',
                            type: 'number',
                            required: true,
                            min: 0,
-                           admin: { width: '33.3%' }
+                           admin: { width: '33.3%' },
                         },
                         {
                            name: 'student',
                            type: 'number',
                            required: true,
                            min: 0,
-                           admin: { width: '33.3%' }
+                           admin: { width: '33.3%' },
                         },
-                     ]
+                     ],
                   },
                   {
                      type: 'row',
@@ -107,7 +107,7 @@ export const Courses: CollectionConfig = {
                            required: true,
                            min: 0,
                         },
-                     ]
+                     ],
                   },
                   {
                      name: 'category',
@@ -129,7 +129,8 @@ export const Courses: CollectionConfig = {
                            type: 'text',
                            required: true,
                            admin: {
-                              description: 'Example: "10 hours", "3 weeks", "Self-paced", etc.',
+                              description:
+                                 'Example: "10 hours", "3 weeks", "Self-paced", etc.',
                            },
                         },
                         {
@@ -142,9 +143,9 @@ export const Courses: CollectionConfig = {
                               { label: 'Advanced', value: 'advanced' },
                            ],
                         },
-                     ]
+                     ],
                   },
-               ]
+               ],
             },
             {
                label: "What you'll learn",
@@ -158,13 +159,13 @@ export const Courses: CollectionConfig = {
                            name: 'title',
                            type: 'text',
                            required: true,
-                        }
-                     ]
-                  }
-               ]
+                        },
+                     ],
+                  },
+               ],
             },
             {
-               label: "Skill",
+               label: 'Skill',
                fields: [
                   {
                      name: 'skills',
@@ -175,13 +176,13 @@ export const Courses: CollectionConfig = {
                            name: 'title',
                            type: 'text',
                            required: true,
-                        }
-                     ]
-                  }
-               ]
+                        },
+                     ],
+                  },
+               ],
             },
             {
-               label: "Reviews",
+               label: 'Reviews',
                fields: [
                   {
                      name: 'reviews',
@@ -196,75 +197,41 @@ export const Courses: CollectionConfig = {
                                  type: 'text',
                                  required: true,
                                  admin: {
-                                    width: '50%'
-                                 }
+                                    width: '50%',
+                                 },
                               },
                               {
                                  name: 'reviewer',
                                  type: 'text',
                                  required: true,
                                  admin: {
-                                    width: '50%'
-                                 }
-                              }
-                           ]
+                                    width: '50%',
+                                 },
+                              },
+                           ],
                         },
                         {
                            name: 'review',
                            type: 'text',
                            required: true,
-                        }
-                     ]
-                  }
-               ]
+                        },
+                     ],
+                  },
+               ],
             },
             {
-               label: "Batches",
+               label: 'Batches',
                fields: [
                   {
                      name: 'batches',
-                     type: 'array',
-                     required: true,
-                     fields: [
-                        {
-                           name: 'name',
-                           type: 'text',
-                           required: true,
-                        },
-                        {
-                           type: 'row',
-                           fields: [
-                              {
-                                 name: 'startDate',
-                                 type: 'date',
-                                 required: true,
-                                 admin: {
-                                    description: 'Start date of the batch.',
-                                    date: {
-                                       pickerAppearance: 'dayOnly',
-                                    },
-                                    width: '50%',
-                                 }
-                              },
-                              {
-                                 name: 'endDate',
-                                 type: 'date',
-                                 required: true,
-                                 admin: {
-                                    description: 'End date of the batch.',
-                                    date: {
-                                       pickerAppearance: 'dayOnly',
-                                    },
-                                    width: '50%',
-                                 }
-                              }
-                           ]
-                        }
-                     ]
-                  }
-               ]
-            }
-         ]
+                     type: 'join',
+                     collection: 'batches', // which collection to join
+                     on: 'course',          // field name in Batches that holds the relationship
+                     // no `required` here; join is virtual
+                  },
+               ],
+            },
+         ],
       },
    ],
 };

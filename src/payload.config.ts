@@ -10,6 +10,7 @@ import { Users } from './collections/Users'
 import { Pages } from './collections/Pages'
 import { Media } from './collections/Media'
 import { Courses } from './collections/Courses'
+import { Batches } from './collections/Batches'
 import { Instructors } from './collections/Instructors'
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
@@ -31,7 +32,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Pages, Courses, Instructors, Media],
+  collections: [Users, Pages, Courses, Batches, Instructors, Media],
   globals: [Header, Home, Footer],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

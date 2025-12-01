@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     pages: Page;
     courses: Course;
+    batches: Batch;
     instructors: Instructor;
     media: Media;
     'payload-kv': PayloadKv;
@@ -77,11 +78,19 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    users: {
+      enrollments: 'batches';
+    };
+    courses: {
+      batches: 'batches';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     courses: CoursesSelect<false> | CoursesSelect<true>;
+    batches: BatchesSelect<false> | BatchesSelect<true>;
     instructors: InstructorsSelect<false> | InstructorsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -146,16 +155,11 @@ export interface User {
    * Only users with the "Admin" role can access the CMS.
    */
   role: 'admin' | 'user';
-  enrollments: {
-    course: number | Course;
-    batch: string;
-    /**
-     * Enrollment date of the batch.
-     */
-    enrollmentDate: string;
-    price: number;
-    id?: string | null;
-  }[];
+  enrollments?: {
+    docs?: (number | Batch)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
@@ -176,6 +180,44 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "batches".
+ */
+export interface Batch {
+  id: number;
+  /**
+   * For admin view
+   */
+  title: string;
+  /**
+   * This will show for user
+   */
+  name: string;
+  course: number | Course;
+  /**
+   * Start date of the batch.
+   */
+  startDate: string;
+  /**
+   * End date of the batch.
+   */
+  endDate: string;
+  users?:
+    | {
+        user: number | User;
+        /**
+         * Enrollment date of the batch.
+         */
+        enrollmentDate: string;
+        price: number;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -216,18 +258,11 @@ export interface Course {
     review: string;
     id?: string | null;
   }[];
-  batches: {
-    name: string;
-    /**
-     * Start date of the batch.
-     */
-    startDate: string;
-    /**
-     * End date of the batch.
-     */
-    endDate: string;
-    id?: string | null;
-  }[];
+  batches?: {
+    docs?: (number | Batch)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -440,6 +475,10 @@ export interface PayloadLockedDocument {
         value: number | Course;
       } | null)
     | ({
+        relationTo: 'batches';
+        value: number | Batch;
+      } | null)
+    | ({
         relationTo: 'instructors';
         value: number | Instructor;
       } | null)
@@ -499,15 +538,7 @@ export interface UsersSelect<T extends boolean = true> {
   dob?: T;
   state?: T;
   role?: T;
-  enrollments?:
-    | T
-    | {
-        course?: T;
-        batch?: T;
-        enrollmentDate?: T;
-        price?: T;
-        id?: T;
-      };
+  enrollments?: T;
   updatedAt?: T;
   createdAt?: T;
   enableAPIKey?: T;
@@ -706,12 +737,27 @@ export interface CoursesSelect<T extends boolean = true> {
         review?: T;
         id?: T;
       };
-  batches?:
+  batches?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "batches_select".
+ */
+export interface BatchesSelect<T extends boolean = true> {
+  title?: T;
+  name?: T;
+  course?: T;
+  startDate?: T;
+  endDate?: T;
+  users?:
     | T
     | {
-        name?: T;
-        startDate?: T;
-        endDate?: T;
+        user?: T;
+        enrollmentDate?: T;
+        price?: T;
         id?: T;
       };
   updatedAt?: T;
