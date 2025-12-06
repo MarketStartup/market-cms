@@ -7,32 +7,75 @@ export const Footer: GlobalConfig = {
    },
    fields: [
       {
-         name: 'quickItems',
-         type: 'array',
-         maxRows: 6,
-         fields: [
+         type: 'tabs',
+         tabs: [
             {
-               type: 'row',
+               label: 'Quick Links',
                fields: [
                   {
-                     name: 'label',
-                     type: 'text',
-                     required: true,
-                     admin: {
-                        width: '50%'
-                     }
+                     name: 'quickLinks',
+                     type: 'array',
+                     maxRows: 6,
+                     fields: [
+                        {
+                           type: 'row',
+                           fields: [
+                              {
+                                 name: 'label',
+                                 type: 'text',
+                                 required: true,
+                                 admin: {
+                                    width: '50%'
+                                 }
+                              },
+                              {
+                                 name: 'href',
+                                 type: 'text',
+                                 required: true,
+                                 admin: {
+                                    width: '50%'
+                                 }
+                              },
+                           ]
+                        }
+                     ],
                   },
+               ]
+            },
+            {
+               label: 'Policies',
+               fields: [
                   {
-                     name: 'href',
-                     type: 'text',
-                     required: true,
-                     admin: {
-                        width: '50%'
-                     }
+                     name: 'policies',
+                     type: 'array',
+                     maxRows: 6,
+                     fields: [
+                        {
+                           type: 'row',
+                           fields: [
+                              {
+                                 name: 'label',
+                                 type: 'text',
+                                 required: true,
+                                 admin: {
+                                    width: '50%'
+                                 }
+                              },
+                              {
+                                 name: 'href',
+                                 type: 'text',
+                                 required: true,
+                                 admin: {
+                                    width: '50%'
+                                 }
+                              },
+                           ]
+                        }
+                     ],
                   },
                ]
             }
-         ],
-      },
+         ]
+      }
    ],
 };

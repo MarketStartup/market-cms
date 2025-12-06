@@ -1,4 +1,4 @@
-// src/blocks/pageBlocks.ts
+import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import type { Block, Field } from 'payload'
 
 export const SectionHeading: Field = {
@@ -122,5 +122,21 @@ export const PromoBanner: Block = {
       },
       Cta('primaryAction', 'Primary Action'),
       Cta('secondaryAction', 'Secondary Action'),
+   ],
+}
+
+
+export const GeneralInformation: Block = {
+   slug: 'generalInformation',
+   labels: {
+      singular: 'General Information',
+      plural: 'General Information Sections',
+   },
+   fields: [
+      {
+         name: 'content',
+         type: 'richText',
+         editor: lexicalEditor({})
+      },
    ],
 }

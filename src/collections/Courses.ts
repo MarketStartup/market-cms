@@ -87,8 +87,11 @@ export const Courses: CollectionConfig = {
                            name: 'student',
                            type: 'number',
                            required: true,
-                           min: 0,
-                           admin: { width: '33.3%' },
+                           min: 1000,
+                           admin: {
+                              description: 'min value: 1000',
+                              width: '33.3%'
+                           },
                         },
                      ],
                   },
@@ -165,7 +168,7 @@ export const Courses: CollectionConfig = {
                ],
             },
             {
-               label: 'Skill',
+               label: 'Skills',
                fields: [
                   {
                      name: 'skills',
@@ -176,6 +179,40 @@ export const Courses: CollectionConfig = {
                            name: 'title',
                            type: 'text',
                            required: true,
+                        },
+                     ],
+                  },
+               ],
+            },
+            {
+               label: 'Curriculum',
+               fields: [
+                  {
+                     name: 'curriculums',
+                     type: 'array',
+                     required: true,
+                     fields: [
+                        {
+                           name: 'sectionTitle',
+                           type: 'text',
+                           required: true,
+                        },
+                        {
+                           name: 'lessons',
+                           type: 'array',
+                           required: true,
+                           fields: [
+                              {
+                                 name: 'lessonTitle',
+                                 type: 'text',
+                                 required: true,
+                              },
+                              {
+                                 name: 'lessonDuration',
+                                 type: 'text',
+                                 required: true,
+                              },
+                           ],
                         },
                      ],
                   },

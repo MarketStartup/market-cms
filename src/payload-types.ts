@@ -234,6 +234,9 @@ export interface Course {
   image: number | Media;
   rating: number;
   review: number;
+  /**
+   * min value: 1000
+   */
   student: number;
   price: number;
   comparePrice: number;
@@ -250,6 +253,15 @@ export interface Course {
   }[];
   skills: {
     title: string;
+    id?: string | null;
+  }[];
+  curriculums: {
+    sectionTitle: string;
+    lessons: {
+      lessonTitle: string;
+      lessonDuration: string;
+      id?: string | null;
+    }[];
     id?: string | null;
   }[];
   reviews: {
@@ -313,7 +325,7 @@ export interface Page {
   /**
    * Only users with the "Admin" role can access the CMS.
    */
-  layout: 'about' | 'contact' | 'courses' | 'course-detail';
+  layout: 'page' | 'course-detail';
   metaTitle: string;
   metaDescription: string;
   blocks?:
@@ -431,6 +443,26 @@ export interface Page {
             id?: string | null;
             blockName?: string | null;
             blockType: 'promoBanner';
+          }
+        | {
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'generalInformation';
           }
       )[]
     | null;
@@ -694,6 +726,13 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        generalInformation?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;
@@ -727,6 +766,19 @@ export interface CoursesSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
+        id?: T;
+      };
+  curriculums?:
+    | T
+    | {
+        sectionTitle?: T;
+        lessons?:
+          | T
+          | {
+              lessonTitle?: T;
+              lessonDuration?: T;
+              id?: T;
+            };
         id?: T;
       };
   reviews?:
@@ -884,6 +936,7 @@ export interface Home {
               subtitle?: string | null;
             };
             features: {
+              icon?: (number | null) | Media;
               title: string;
               description: string;
               id?: string | null;
@@ -937,7 +990,14 @@ export interface Home {
  */
 export interface Footer {
   id: number;
-  quickItems?:
+  quickLinks?:
+    | {
+        label: string;
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  policies?:
     | {
         label: string;
         href: string;
@@ -1008,6 +1068,7 @@ export interface HomeSelect<T extends boolean = true> {
               features?:
                 | T
                 | {
+                    icon?: T;
                     title?: T;
                     description?: T;
                     id?: T;
@@ -1067,7 +1128,14 @@ export interface HomeSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
-  quickItems?:
+  quickLinks?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  policies?:
     | T
     | {
         label?: T;

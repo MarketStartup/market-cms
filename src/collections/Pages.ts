@@ -4,6 +4,7 @@ import {
    Banner,
    Faq,
    PromoBanner,
+   GeneralInformation
 } from '../blocks/shared'
 import {
    AboutUs,
@@ -70,9 +71,7 @@ export const Pages: CollectionConfig = {
          type: 'select',
          required: true,
          options: [
-            { label: 'About', value: LayoutConstant.ABOUT },
-            { label: 'Contact', value: LayoutConstant.CONTACT },
-            { label: 'Courses', value: LayoutConstant.COURSES },
+            { label: 'Page', value: LayoutConstant.PAGE },
             { label: 'Course Detail', value: LayoutConstant.COURSE_DETAIL },
          ],
          admin: {
@@ -119,6 +118,7 @@ export const Pages: CollectionConfig = {
                         Banner,
                         Faq,
                         PromoBanner,
+                        GeneralInformation
                      ],
                   },
                ],

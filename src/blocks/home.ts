@@ -20,7 +20,7 @@ export const HomeBanner: Block = {
       },
       {
          name: 'subtitle',
-         type: 'text',
+         type: 'textarea',
       },
       {
          name: 'image',
@@ -45,6 +45,11 @@ export const Feature: Block = {
          type: 'array',
          required: true,
          fields: [
+            {
+               name: 'icon',
+               type: 'upload',
+               relationTo: 'media',
+            },
             {
                name: 'title',
                type: 'text',

@@ -4,9 +4,6 @@ export const RoleConstant = {
 }
 
 export const LayoutConstant = {
-   HOME: 'home',
-   ABOUT: 'about',
-   CONTACT: 'contact',
-   COURSES: 'courses',
+   PAGE: 'page',
    COURSE_DETAIL: 'course-detail'
 }
