@@ -322,6 +322,10 @@ export interface Page {
    * Auto-generated from the title, but can be edited.
    */
   slug: string;
+  /**
+   * Only users with the "Admin" role can access the CMS.
+   */
+  layout: 'page' | 'course-detail';
   metaTitle: string;
   metaDescription: string;
   blocks?:
@@ -594,6 +598,7 @@ export interface UsersSelect<T extends boolean = true> {
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  layout?: T;
   metaTitle?: T;
   metaDescription?: T;
   blocks?:

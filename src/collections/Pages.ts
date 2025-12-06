@@ -66,18 +66,18 @@ export const Pages: CollectionConfig = {
             }
          ]
       },
-      // {
-      //    name: 'layout',
-      //    type: 'select',
-      //    required: true,
-      //    options: [
-      //       { label: 'Page', value: LayoutConstant.PAGE },
-      //       { label: 'Course Detail', value: LayoutConstant.COURSE_DETAIL },
-      //    ],
-      //    admin: {
-      //       description: 'Only users with the "Admin" role can access the CMS.',
-      //    },
-      // },
+      {
+         name: 'layout',
+         type: 'select',
+         required: true,
+         options: [
+            { label: 'Page', value: LayoutConstant.PAGE },
+            { label: 'Course Detail', value: LayoutConstant.COURSE_DETAIL },
+         ],
+         admin: {
+            description: 'Only users with the "Admin" role can access the CMS.',
+         },
+      },
       {
          type: 'tabs',
          tabs: [
