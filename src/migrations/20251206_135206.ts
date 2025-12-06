@@ -64,14 +64,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "footer_quick_items" RENAME TO "footer_quick_links";
   ALTER TABLE "footer_quick_links" DROP CONSTRAINT "footer_quick_items_parent_id_fk";
   
-  ALTER TABLE "pages" ALTER COLUMN "layout" SET DATA TYPE text;
-  DROP TYPE "public"."enum_pages_layout";
-  CREATE TYPE "public"."enum_pages_layout" AS ENUM('page', 'course-detail');
-  ALTER TABLE "pages" ALTER COLUMN "layout" SET DATA TYPE "public"."enum_pages_layout" USING "layout"::"public"."enum_pages_layout";
-  ALTER TABLE "_pages_v" ALTER COLUMN "version_layout" SET DATA TYPE text;
-  DROP TYPE "public"."enum__pages_v_version_layout";
-  CREATE TYPE "public"."enum__pages_v_version_layout" AS ENUM('page', 'course-detail');
-  ALTER TABLE "_pages_v" ALTER COLUMN "version_layout" SET DATA TYPE "public"."enum__pages_v_version_layout" USING "version_layout"::"public"."enum__pages_v_version_layout";
   DROP INDEX "footer_quick_items_order_idx";
   DROP INDEX "footer_quick_items_parent_id_idx";
   ALTER TABLE "home_blocks_feature_features" ADD COLUMN "icon_id" integer;
@@ -138,14 +130,6 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   
   ALTER TABLE "_home_v_blocks_feature_features" DROP CONSTRAINT "_home_v_blocks_feature_features_icon_id_media_id_fk";
   
-  ALTER TABLE "pages" ALTER COLUMN "layout" SET DATA TYPE text;
-  DROP TYPE "public"."enum_pages_layout";
-  CREATE TYPE "public"."enum_pages_layout" AS ENUM('about', 'contact', 'courses', 'course-detail');
-  ALTER TABLE "pages" ALTER COLUMN "layout" SET DATA TYPE "public"."enum_pages_layout" USING "layout"::"public"."enum_pages_layout";
-  ALTER TABLE "_pages_v" ALTER COLUMN "version_layout" SET DATA TYPE text;
-  DROP TYPE "public"."enum__pages_v_version_layout";
-  CREATE TYPE "public"."enum__pages_v_version_layout" AS ENUM('about', 'contact', 'courses', 'course-detail');
-  ALTER TABLE "_pages_v" ALTER COLUMN "version_layout" SET DATA TYPE "public"."enum__pages_v_version_layout" USING "version_layout"::"public"."enum__pages_v_version_layout";
   DROP INDEX "home_blocks_feature_features_icon_idx";
   DROP INDEX "_home_v_blocks_feature_features_icon_idx";
   ALTER TABLE "footer_quick_items" ADD CONSTRAINT "footer_quick_items_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."footer"("id") ON DELETE cascade ON UPDATE no action;
