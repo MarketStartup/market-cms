@@ -87,9 +87,7 @@ export const Courses: CollectionConfig = {
                            name: 'student',
                            type: 'number',
                            required: true,
-                           min: 1000,
                            admin: {
-                              description: 'min value: 1000',
                               width: '33.3%'
                            },
                         },

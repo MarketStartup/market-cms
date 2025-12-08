@@ -107,11 +107,13 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
+    common: Common;
     header: Header;
     home: Home;
     footer: Footer;
   };
   globalsSelect: {
+    common: CommonSelect<false> | CommonSelect<true>;
     header: HeaderSelect<false> | HeaderSelect<true>;
     home: HomeSelect<false> | HomeSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
@@ -151,6 +153,7 @@ export interface User {
   id: number;
   firstName?: string | null;
   lastName?: string | null;
+  mobile?: string | null;
   /**
    * Select the users date of birth.
    */
@@ -239,9 +242,6 @@ export interface Course {
   image: number | Media;
   rating: number;
   review: number;
-  /**
-   * min value: 1000
-   */
   student: number;
   price: number;
   comparePrice: number;
@@ -605,6 +605,7 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   firstName?: T;
   lastName?: T;
+  mobile?: T;
   dob?: T;
   state?: T;
   role?: T;
@@ -949,6 +950,43 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "common".
+ */
+export interface Common {
+  id: number;
+  logo: number | Media;
+  /**
+   * max lenght: 100 characters
+   */
+  footerDescription: string;
+  emails?:
+    | {
+        email: string;
+        id?: string | null;
+      }[]
+    | null;
+  mobiles?:
+    | {
+        mobile: number;
+        id?: string | null;
+      }[]
+    | null;
+  address: string;
+  socials?:
+    | {
+        /**
+         * white icon recomended
+         */
+        icon: number | Media;
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header".
  */
 export interface Header {
@@ -1067,6 +1105,37 @@ export interface Footer {
     | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "common_select".
+ */
+export interface CommonSelect<T extends boolean = true> {
+  logo?: T;
+  footerDescription?: T;
+  emails?:
+    | T
+    | {
+        email?: T;
+        id?: T;
+      };
+  mobiles?:
+    | T
+    | {
+        mobile?: T;
+        id?: T;
+      };
+  address?: T;
+  socials?:
+    | T
+    | {
+        icon?: T;
+        href?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

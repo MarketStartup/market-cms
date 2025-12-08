@@ -41,6 +41,14 @@ export const Users: CollectionConfig = {
                   },
                 },
                 {
+                  name: 'mobile',
+                  label: 'Mobile Number',
+                  type: 'text',
+                  admin: {
+                    width: '50%',
+                  },
+                },
+                {
                   name: 'dob',
                   label: 'Date of Birth',
                   type: 'date',

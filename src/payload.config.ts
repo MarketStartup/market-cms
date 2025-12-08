@@ -17,6 +17,7 @@ import { Footer } from './globals/Footer'
 import { Home } from './globals/Home'
 import { Inquiries } from './collections/Inquiries'
 import { Orders } from './collections/Orders'
+import { Common } from './globals/Common'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -35,7 +36,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Pages, Courses, Batches, Instructors, Orders, Inquiries, Media],
-  globals: [Header, Home, Footer],
+  globals: [Common, Header, Home, Footer],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
