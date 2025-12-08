@@ -46,9 +46,6 @@ export const Users: CollectionConfig = {
                   type: 'date',
                   admin: {
                     description: 'Select the users date of birth.',
-                    date: {
-                      pickerAppearance: 'dayOnly',
-                    },
                     width: '50%',
                   },
                 },
@@ -60,22 +57,23 @@ export const Users: CollectionConfig = {
                     width: '50%',
                   },
                 },
+                {
+                  name: 'role',
+                  type: 'select',
+                  required: true,
+                  defaultValue: RoleConstant.USER,
+                  options: [
+                    { label: 'Admin', value: RoleConstant.ADMIN },
+                    { label: 'User', value: RoleConstant.USER },
+                  ],
+                  admin: {
+                    description: 'Only users with the "Admin" role can access the CMS.',
+                    width: '50%',
+                  },
+                },
               ],
             },
-            {
-              name: 'role',
-              type: 'select',
-              required: true,
-              defaultValue: RoleConstant.USER,
-              options: [
-                { label: 'Admin', value: RoleConstant.ADMIN },
-                { label: 'User', value: RoleConstant.USER },
-              ],
-              admin: {
-                description:
-                  'Only users with the "Admin" role can access the CMS.',
-              },
-            },
+
           ],
         },
         {

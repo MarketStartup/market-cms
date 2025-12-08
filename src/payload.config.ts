@@ -15,6 +15,8 @@ import { Instructors } from './collections/Instructors'
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
 import { Home } from './globals/Home'
+import { Inquiries } from './collections/Inquiries'
+import { Orders } from './collections/Orders'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -32,7 +34,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Pages, Courses, Batches, Instructors, Media],
+  collections: [Users, Pages, Courses, Batches, Instructors, Orders, Inquiries, Media],
   globals: [Header, Home, Footer],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
