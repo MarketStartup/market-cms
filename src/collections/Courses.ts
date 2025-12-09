@@ -149,6 +149,23 @@ export const Courses: CollectionConfig = {
                ],
             },
             {
+               label: "This course includes",
+               fields: [
+                  {
+                     name: 'thisCourseIncludes',
+                     type: 'array',
+                     required: true,
+                     fields: [
+                        {
+                           name: 'title',
+                           type: 'text',
+                           required: true,
+                        },
+                     ],
+                  },
+               ],
+            },
+            {
                label: "What you'll learn",
                fields: [
                   {

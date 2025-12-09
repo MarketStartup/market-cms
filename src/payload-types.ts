@@ -252,6 +252,10 @@ export interface Course {
    */
   duration: string;
   level: 'beginner' | 'intermediate' | 'advanced';
+  thisCourseIncludes: {
+    title: string;
+    id?: string | null;
+  }[];
   whatYouLearnPoints: {
     title: string;
     id?: string | null;
@@ -795,6 +799,12 @@ export interface CoursesSelect<T extends boolean = true> {
   instructor?: T;
   duration?: T;
   level?: T;
+  thisCourseIncludes?:
+    | T
+    | {
+        title?: T;
+        id?: T;
+      };
   whatYouLearnPoints?:
     | T
     | {
