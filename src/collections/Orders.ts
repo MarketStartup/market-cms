@@ -23,6 +23,9 @@ export const Orders: CollectionConfig = {
                type: 'relationship',
                relationTo: 'users',
                required: true,
+               admin: {
+                  width: '50%',
+               },
             },
             {
                name: 'batch',
@@ -30,10 +33,21 @@ export const Orders: CollectionConfig = {
                type: 'relationship',
                relationTo: 'batches',
                required: true,
+               admin: {
+                  width: '50%',
+               },
             },
             {
                name: 'amount',
                type: 'number',
+               required: true,
+               admin: {
+                  width: '50%',
+               },
+            },
+            {
+               name: 'status',
+               type: 'text',
                required: true,
                admin: {
                   width: '50%',

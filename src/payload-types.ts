@@ -488,6 +488,7 @@ export interface Order {
   user: number | User;
   batch: number | Batch;
   amount: number;
+  status: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -885,6 +886,7 @@ export interface OrdersSelect<T extends boolean = true> {
   user?: T;
   batch?: T;
   amount?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
