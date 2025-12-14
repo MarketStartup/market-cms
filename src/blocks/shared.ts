@@ -98,12 +98,6 @@ export const Faq: Block = {
                type: 'text',
                required: true
             },
-            {
-               name: 'answer',
-               type: 'richText',
-               editor: lexicalEditor({}),
-               required: true
-            },
          ],
       },
    ],
