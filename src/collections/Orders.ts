@@ -8,9 +8,9 @@ export const Orders: CollectionConfig = {
       defaultColumns: ['user', 'batch', 'amount'],
    },
    access: {
-      read: ({ req }) => req.user?.role === RoleConstant.ADMIN,
-      create: ({ req }) => req.user?.role === RoleConstant.ADMIN,
-      update: ({ req }) => req.user?.role === RoleConstant.ADMIN,
+      read: () => true,
+      create: () => true,
+      update: () => true,
       delete: ({ req }) => req.user?.role === RoleConstant.ADMIN,
    },
    fields: [

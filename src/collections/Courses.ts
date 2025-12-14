@@ -17,7 +17,7 @@ export const Courses: CollectionConfig = {
       },
    },
    access: {
-      read: ({ req }) => req.user?.role === RoleConstant.ADMIN,
+      read: () => true,
       create: ({ req }) => req.user?.role === RoleConstant.ADMIN,
       update: ({ req }) => req.user?.role === RoleConstant.ADMIN,
       delete: ({ req }) => req.user?.role === RoleConstant.ADMIN,
