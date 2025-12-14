@@ -100,7 +100,8 @@ export const Faq: Block = {
             },
             {
                name: 'answer',
-               type: 'textarea',
+               type: 'richText',
+               editor: lexicalEditor({}),
                required: true
             },
          ],

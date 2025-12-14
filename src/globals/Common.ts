@@ -61,7 +61,7 @@ export const Common: GlobalConfig = {
                            fields: [
                               {
                                  name: 'mobile',
-                                 type: 'number',
+                                 type: 'text',
                                  required: true,
                                  admin: {
                                     width: '50%'

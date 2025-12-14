@@ -8,8 +8,8 @@ export const Orders: CollectionConfig = {
       defaultColumns: ['user', 'batch', 'amount'],
    },
    access: {
-      read: () => true,
-      create: () => true,
+      read: ({ req }) => req.user?.role === RoleConstant.ADMIN,
+      create: ({ req }) => req.user?.role === RoleConstant.ADMIN,
       update: ({ req }) => req.user?.role === RoleConstant.ADMIN,
       delete: ({ req }) => req.user?.role === RoleConstant.ADMIN,
    },
@@ -17,6 +17,29 @@ export const Orders: CollectionConfig = {
       {
          type: 'row',
          fields: [
+            {
+               name: 'transactionId',
+               type: 'text',
+               required: true,
+               maxLength: 10,
+               admin: {
+                  width: '100%',
+               },
+            },
+            {
+               name: 'razorpayPaymentId',
+               type: 'text',
+               admin: {
+                  width: '50%',
+               },
+            },
+            {
+               name: 'razorpayOrderId',
+               type: 'text',
+               admin: {
+                  width: '50%',
+               },
+            },
             {
                name: 'user',
                label: 'User',

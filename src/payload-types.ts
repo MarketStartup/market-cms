@@ -426,7 +426,21 @@ export interface Page {
             items?:
               | {
                   question: string;
-                  answer: string;
+                  answer: {
+                    root: {
+                      type: string;
+                      children: {
+                        type: any;
+                        version: number;
+                        [k: string]: unknown;
+                      }[];
+                      direction: ('ltr' | 'rtl') | null;
+                      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                      indent: number;
+                      version: number;
+                    };
+                    [k: string]: unknown;
+                  };
                   id?: string | null;
                 }[]
               | null;
@@ -485,6 +499,9 @@ export interface Page {
  */
 export interface Order {
   id: number;
+  transactionId: string;
+  razorpayPaymentId?: string | null;
+  razorpayOrderId?: string | null;
   user: number | User;
   batch: number | Batch;
   amount: number;
@@ -883,6 +900,9 @@ export interface InstructorsSelect<T extends boolean = true> {
  * via the `definition` "orders_select".
  */
 export interface OrdersSelect<T extends boolean = true> {
+  transactionId?: T;
+  razorpayPaymentId?: T;
+  razorpayOrderId?: T;
   user?: T;
   batch?: T;
   amount?: T;
@@ -979,7 +999,7 @@ export interface Common {
     | null;
   mobiles?:
     | {
-        mobile: number;
+        mobile: string;
         id?: string | null;
       }[]
     | null;
@@ -1081,7 +1101,21 @@ export interface Home {
             items?:
               | {
                   question: string;
-                  answer: string;
+                  answer: {
+                    root: {
+                      type: string;
+                      children: {
+                        type: any;
+                        version: number;
+                        [k: string]: unknown;
+                      }[];
+                      direction: ('ltr' | 'rtl') | null;
+                      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                      indent: number;
+                      version: number;
+                    };
+                    [k: string]: unknown;
+                  };
                   id?: string | null;
                 }[]
               | null;

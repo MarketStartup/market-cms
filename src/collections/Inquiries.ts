@@ -8,8 +8,8 @@ export const Inquiries: CollectionConfig = {
       defaultColumns: ['fullName', 'email'],
    },
    access: {
-      read: () => true,
-      create: () => true,
+      read: ({ req }) => req.user?.role === RoleConstant.ADMIN,
+      create: ({ req }) => req.user?.role === RoleConstant.ADMIN,
       update: ({ req }) => req.user?.role === RoleConstant.ADMIN,
       delete: ({ req }) => req.user?.role === RoleConstant.ADMIN,
    },

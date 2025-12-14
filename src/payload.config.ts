@@ -22,7 +22,7 @@ import { Common } from './globals/Common'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const serverURL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'
+const serverURL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3010'
 const frontendURL = process.env.FRONTEND_URL || 'http://localhost:3005'
 
 export default buildConfig({
