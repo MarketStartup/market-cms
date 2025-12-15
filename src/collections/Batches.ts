@@ -18,7 +18,7 @@ export const Batches: CollectionConfig = {
    access: {
       read: () => true,
       create: ({ req }) => req.user?.role === RoleConstant.ADMIN,
-      update: ({ req }) => req.user?.role === RoleConstant.ADMIN,
+      update: () => true,
       delete: ({ req }) => req.user?.role === RoleConstant.ADMIN,
    },
    fields: [
@@ -116,7 +116,7 @@ export const Batches: CollectionConfig = {
                            },
                         },
                         {
-                           name: 'price',
+                           name: 'amountPaid',
                            type: 'number',
                            required: true,
                            min: 0,

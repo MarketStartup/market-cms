@@ -76,6 +76,13 @@ export const Orders: CollectionConfig = {
                   width: '50%',
                },
             },
+            {
+               name: 'message',
+               type: 'text',
+               admin: {
+                  width: '100%',
+               },
+            },
          ],
       },
    ],

@@ -219,7 +219,7 @@ export interface Batch {
          * Enrollment date of the batch.
          */
         enrollmentDate: string;
-        price: number;
+        amountPaid: number;
         id?: string | null;
       }[]
     | null;
@@ -506,6 +506,7 @@ export interface Order {
   batch: number | Batch;
   amount: number;
   status: string;
+  message?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -876,7 +877,7 @@ export interface BatchesSelect<T extends boolean = true> {
     | {
         user?: T;
         enrollmentDate?: T;
-        price?: T;
+        amountPaid?: T;
         id?: T;
       };
   updatedAt?: T;
@@ -907,6 +908,7 @@ export interface OrdersSelect<T extends boolean = true> {
   batch?: T;
   amount?: T;
   status?: T;
+  message?: T;
   updatedAt?: T;
   createdAt?: T;
 }
