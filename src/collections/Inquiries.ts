@@ -9,7 +9,7 @@ export const Inquiries: CollectionConfig = {
    },
    access: {
       read: ({ req }) => req.user?.role === RoleConstant.ADMIN,
-      create: ({ req }) => req.user?.role === RoleConstant.ADMIN,
+      create: () => true,
       update: ({ req }) => req.user?.role === RoleConstant.ADMIN,
       delete: ({ req }) => req.user?.role === RoleConstant.ADMIN,
    },
