@@ -246,6 +246,7 @@ export interface Course {
   price: number;
   comparePrice: number;
   category: string;
+  brochure?: (number | null) | Media;
   instructor: number | Instructor;
   /**
    * Example: "10 hours", "3 weeks", "Self-paced", etc.
@@ -815,6 +816,7 @@ export interface CoursesSelect<T extends boolean = true> {
   price?: T;
   comparePrice?: T;
   category?: T;
+  brochure?: T;
   instructor?: T;
   duration?: T;
   level?: T;

@@ -13,7 +13,7 @@ export const Users: CollectionConfig = {
   access: {
     admin: ({ req }) => req.user?.role === RoleConstant.ADMIN,
     create: () => true,
-    update: ({ req }) => req.user?.role === RoleConstant.ADMIN,
+    update: () => true,
     delete: ({ req }) => req.user?.role === RoleConstant.ADMIN,
   },
   fields: [

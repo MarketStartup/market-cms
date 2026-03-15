@@ -116,6 +116,20 @@ export const Courses: CollectionConfig = {
                      required: true,
                   },
                   {
+                     name: 'brochure',
+                     type: 'upload',
+                     relationTo: 'media',
+                     required: false,
+                     validate: async (value: unknown, { req }: { req: any }) => {
+                        if (!value) return true;
+                        const media = await req.payload.findByID({ collection: 'media', id: value });
+                        if (media?.filesize && media.filesize > 5 * 1024 * 1024) {
+                           return 'Brochure file size must not exceed 5 MB.';
+                        }
+                        return true;
+                     },
+                  },
+                  {
                      name: 'instructor',
                      label: 'Instructor',
                      type: 'relationship',
