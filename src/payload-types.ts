@@ -163,6 +163,10 @@ export interface User {
    * Only users with the "Admin" role can access the CMS.
    */
   role: 'admin' | 'user';
+  /**
+   * Indicates whether the user has updated their auto-generated password after first login.
+   */
+  hasChangedInitialPassword?: boolean | null;
   enrollments?: {
     docs?: (number | Batch)[];
     hasNextPage?: boolean;
@@ -633,6 +637,7 @@ export interface UsersSelect<T extends boolean = true> {
   dob?: T;
   state?: T;
   role?: T;
+  hasChangedInitialPassword?: T;
   enrollments?: T;
   updatedAt?: T;
   createdAt?: T;

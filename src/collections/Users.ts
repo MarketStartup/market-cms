@@ -81,6 +81,15 @@ export const Users: CollectionConfig = {
                 },
               ],
             },
+            {
+              name: 'hasChangedInitialPassword',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Indicates whether the user has updated their auto-generated password after first login.',
+                width: '50%',
+              },
+            },
 
           ],
         },
