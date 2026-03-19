@@ -12,9 +12,21 @@ export const Users: CollectionConfig = {
   },
   access: {
     admin: ({ req }) => req.user?.role === RoleConstant.ADMIN,
+    read: () => true,
     create: () => true,
     update: () => true,
     delete: ({ req }) => req.user?.role === RoleConstant.ADMIN,
+  },
+  hooks: {
+    beforeDelete: [
+      async ({ req, id }) => {
+        await req.payload.delete({
+          collection: 'orders',
+          where: { user: { equals: id } },
+          req,
+        })
+      },
+    ],
   },
   fields: [
     {
